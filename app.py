@@ -2,7 +2,7 @@ import json
 import os
 import uuid
 from io import BytesIO
-from typing import List
+from typing import List, Union, Any
 import tempfile
 
 from fastapi import FastAPI, File, UploadFile, HTTPException
@@ -77,9 +77,9 @@ def save_pil_image(image: Image.Image) -> str:
     return file_path
 
 
-def process_results(results: dict) -> dict:
-    """Recursively process the results dictionary to save images and replace them with file paths."""
-    def process_item(item):
+def process_results(results) -> Union[dict, list]:
+    """Recursively process the results to save images and replace them with file paths."""
+    def process_item(item: Any) -> Any:
         if isinstance(item, dict):
             return process_results(item)
         elif isinstance(item, list):
@@ -90,12 +90,12 @@ def process_results(results: dict) -> dict:
             return save_pil_image(item)
         return item
 
-    for key, value in results.items():
-        if key in ["image", "figure"]:
-            results[key] = process_item(value)
-        else:
-            results[key] = process_item(value)
-    return results
+    if isinstance(results, dict):
+        return {key: process_item(value) for key, value in results.items()}
+    elif isinstance(results, list):
+        return [process_item(item) for item in results]
+    else:
+        return results
 
 
 @app.post("/extract_molecules_from_figures_in_pdf")
