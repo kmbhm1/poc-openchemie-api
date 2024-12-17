@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "openchemie-api"
+version = "0.1.0"
+description = "A chemistry application that makes the OpenChemIE model and capabilties available via REST API."
+authors = ["Kevin Boehm <kmbhm1@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+black = "^24.10.0"
+isort = "^5.13.2"
+flake8 = "^7.1.1"
+pytest = "^8.3.4"
+fastapi = "^0.115.6"
+uvicorn = "^0.34.0"
+openchemie = {git = "https://github.com/CrystalEye42/OpenChemIE"}
+types-pillow = "^10.2.0.20240822"
+python-multipart = "^0.0.20"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+ignore_missing_imports = true
