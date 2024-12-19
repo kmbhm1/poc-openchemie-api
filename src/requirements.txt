@@ -1,9 +1,3 @@
-black
-isort
-flake8
-pytest
-fastapi
-uvicorn
 OpenChemIE @ git+https://github.com/CrystalEye42/OpenChemIE
 requests
 numpy
